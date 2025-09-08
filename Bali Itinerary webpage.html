@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Epic Bali Adventure!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals (Sand, Muted Orange, Soft Teal) -->
+    <!-- Application Structure Plan: A single-page vertical timeline with a sticky top navigation for quick access to each day. This chronological structure is the most intuitive for an itinerary. Interactivity is added through an accommodation summary chart for at-a-glance planning and content toggles for choice-based activities (Day 2), preventing information overload and improving clarity. An IntersectionObserver highlights the active day in the navigation, enhancing user orientation. -->
+    <!-- Visualization & Content Choices: 1. Accommodation Schedule: Goal=Organize/Compare -> Method=Horizontal Floating Bar Chart -> Interaction=Hover tooltips for details -> Justification=Visually communicates stay durations and transitions more effectively than a list -> Library=Chart.js (Canvas). 2. Day 2 Options: Goal=Inform/Organize -> Method=Tab-like buttons to toggle content visibility -> Interaction=Click to switch between activity options -> Justification=Presents a clear choice without cluttering the UI, focusing user attention -> Library/Method=Vanilla JS DOM manipulation. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDF8F0;
+            color: #4A4A4A;
+        }
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+        .nav-link.active {
+            background-color: #F89B6D;
+            color: #ffffff;
+        }
+        .option-btn.active {
+            background-color: #4DB0AF;
+            color: white;
+            border-color: #4DB0AF;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-[#FDF8F0]/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="text-center py-2 md:py-4">
+                <h1 class="text-2xl md:text-4xl font-bold text-[#F89B6D]">Your Epic Bali Adventure! 🌴✨</h1>
+                <p class="text-xs md:text-lg text-gray-600 mt-1">An Unforgettable 11-Day Journey: Oct 2 – Oct 12, 2025</p>
+            </div>
+            <nav id="day-nav" class="flex flex-wrap justify-center items-center gap-2 pb-2 md:pb-4 text-sm">
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div id="content" class="space-y-12">
+            
+            <section id="overview" class="p-4 sm:p-6 bg-white rounded-2xl shadow-lg text-center">
+                 <h2 class="text-2xl md:text-3xl font-bold text-[#4DB0AF] mb-4">Trip at a Glance</h2>
+                 <p class="max-w-3xl mx-auto text-gray-600 mb-6">
+                    Welcome to your personalized digital guide for an incredible 11-day journey through Bali. This interactive itinerary provides a high-level overview of your adventure, from the vibrant streets of Kuta to the tranquil jungles of Ubud. Use the navigation above to jump to any day, and explore the accommodation timeline below to see your stays visualized.
+                 </p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                    <div class="bg-orange-50 p-3 rounded-xl flex flex-col items-center justify-center">
+                        <div class="text-3xl">🗺️</div>
+                        <h3 class="font-bold text-base md:text-lg text-orange-700 mt-2">5 Regions</h3>
+                        <p class="text-xs md:text-sm text-orange-600">Kuta, Uluwatu, Nusa Penida, Gili Islands, Ubud</p>
+                    </div>
+                    <div class="bg-teal-50 p-3 rounded-xl flex flex-col items-center justify-center">
+                        <div class="text-3xl">🏨</div>
+                        <h3 class="font-bold text-base md:text-lg text-teal-700 mt-2">5 Accommodations</h3>
+                         <p class="text-xs md:text-sm text-teal-600">Hotels, Villas & Resorts</p>
+                    </div>
+                    <div class="bg-amber-50 p-3 rounded-xl flex flex-col items-center justify-center">
+                        <div class="text-3xl">🌊</div>
+                        <h3 class="font-bold text-base md:text-lg text-amber-700 mt-2">~7 Water Activities</h3>
+                         <p class="text-xs md:text-sm text-amber-600">Beaches, Snorkelling, Diving & More</p>
+                    </div>
+                     <div class="bg-lime-50 p-3 rounded-xl flex flex-col items-center justify-center">
+                        <div class="text-3xl">🌋</div>
+                        <h3 class="font-bold text-base md:text-lg text-lime-700 mt-2">~4 Adventures</h3>
+                         <p class="text-xs md:text-sm text-lime-600">Sunrise Jeep, ATV, Hikes & Parties</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="accommodations" class="p-6 bg-white rounded-2xl shadow-lg">
+                <h2 class="text-2xl md:text-3xl font-bold text-center text-[#4DB0AF] mb-4">Accommodation Plan</h2>
+                <p class="max-w-3xl mx-auto text-gray-600 mb-6 text-center">
+                    This chart visualizes your stays throughout the trip. Each bar represents a different accommodation, showing you exactly when you'll be checking in and out. Hover over any bar to see the specific details of your stay. This provides a clear, at-a-glance view of your accommodation journey across Bali's diverse landscapes.
+                </p>
+                <div class="chart-container">
+                    <canvas id="accommodationChart"></canvas>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        const itineraryData = [
+            { id: 1, date: "Oct 2, 2025", title: "Arrival & Kuta Vibes 🥳", content: `
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li>Welcome to Bali! Land at Ngurah Rai International Airport (DPS). ✈️</li>
+                    <li><strong>Check-in: The Bene Hotel</strong> - Your luxurious home in Kuta. 🏨</li>
+                    <li>Afternoon Exploration: Immerse yourself in the lively atmosphere of Kuta. Take a stroll through the Kuta Town Centre for some initial exploration and souvenir shopping. 🛍️</li>
+                    <li>Evening: Enjoy a relaxed dinner at a local warung and soak in the vibrant energy of the town. 🍜</li>
+                </ul>` },
+            { id: 2, date: "Oct 3, 2025", title: "Uluwatu's Coastal Wonders & Culture 🌅", content: `
+                <p class="mb-4 text-gray-600"><strong>Staying at: The Bene Hotel</strong></p>
+                <h3 class="text-xl font-semibold mb-4 text-[#F89B6D]">Choose Your Adventure for the Day!</h3>
+                <div class="flex flex-wrap gap-4 mb-4">
+                    <button class="option-btn active" data-option="1">Option 1: Beaches & Sunset Dance 💃</button>
+                    <button class="option-btn" data-option="2">Option 2: Creative Cities & Temples 🎨</button>
+                </div>
+                <div id="option-1-content">
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>Morning: Enjoy a relaxed start to your day. ☕</li>
+                        <li>11:00 AM: Depart for the stunning cliffs and beaches of Uluwatu. 🚗</li>
+                        <li>Destinations:
+                            <ul class="list-disc list-inside ml-6 mt-2 space-y-1">
+                                <li>Pantai Nunggalan & Nyang Nyang Beach: Discover hidden gems with pristine white sands. 🏖️📸</li>
+                                <li>El Kabron Beach Club: Relax at this iconic cliff-top club. 🍹</li>
+                                <li>Suluban Beach: Explore the unique cave entrance to this famous surf break. 🌊</li>
+                            </ul>
+                        </li>
+                        <li>Evening: Witness a magical sunset at Uluwatu Temple, followed by the traditional Kecak Fire Dance. 🔥</li>
+                        <li>Late Evening: Return to The Bene Hotel. Veer & Neha will join you here! 💖</li>
+                    </ul>
+                </div>
+                <div id="option-2-content" class="hidden">
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>Morning: Enjoy a leisurely breakfast and a slow start. 🍳</li>
+                        <li>Full Day Exploration: Discover Nuanu City, a sprawling creative hub for art and innovation. 🏙️</li>
+                        <li>Sunset: Journey to the iconic Tanah Lot Temple for one of Bali's most famous vistas. ⛩️</li>
+                        <li>Late Evening: Return to The Bene Hotel to meet up with Veer & Neha! 🤗</li>
+                    </ul>
+                </div>` },
+            { id: 3, date: "Oct 4, 2025", title: "Nusa Penida's Western Marvels 🏝️", content: `
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li><strong>Check-out: The Bene Hotel</strong></li>
+                    <li>07:30 AM: Early departure for Sanur Port. 🛥️</li>
+                    <li>09:00 AM: Catch the fast boat ferry to Nusa Penida.</li>
+                    <li><strong>Check-in: Semabu Hills Nusa Penida</strong> 🏨</li>
+                    <li>West Nusa Exploration of jaw-dropping landscapes:
+                        <ul class="list-disc list-inside ml-6 mt-2 space-y-1">
+                            <li>Broken Beach & Angel's Billabong: Natural archway and a stunning infinity pool. 🏞️💧</li>
+                            <li>Kelingking Beach: Hike down to the famous T-Rex shaped cliff. 🦖</li>
+                            <li>Paluang Cliff: An alternative, stunning perspective of the Kelingking coastline. ⛰️</li>
+                            <li>Tembeling Beach & Forest: Discover a natural pool hidden in a lush forest. 🌳🏊</li>
+                        </ul>
+                    </li>
+                    <li>Evening: Enjoy a beautiful sunset before returning to your villa to relax. 🌇</li>
+                </ul>` },
+            { id: 4, date: "Oct 5, 2025", title: "Nusa Penida's Eastern Beauty ✨", content: `
+                <p class="mb-4 text-gray-600"><strong>Staying at: Semabu Hills Nusa Penida</strong></p>
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li>Sunrise Mission: Wake up early to catch the sunrise at the famous Rumah Pohon Treehouse. 🌅</li>
+                    <li>Morning Views: Visit the Thousand Islands Viewpoint for a spectacular coastal panorama. 🔭</li>
+                    <li>Beach Time: Explore the stunning, cliff-flanked Diamond Beach. 💎</li>
+                    <li>12:00 PM: Return to your villa for an afternoon of well-deserved leisure and relaxation by the pool. 🏊</li>
+                </ul>` },
+            { id: 5, date: "Oct 6, 2025", title: "Snorkelling & Gili Islands Bound 🐢", content: `
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li><strong>Check-out: Semabu Hills Nusa Penida</strong></li>
+                    <li>07:30 AM: Hotel pickup for your snorkelling adventure. 🐠</li>
+                    <li>08:15 AM - 11:00 AM: Dive into crystal-clear waters to see vibrant coral and marine life. 🤿</li>
+                    <li>12:30 PM: Head to the port to catch the ferry to the Gili Islands. ⛴️</li>
+                    <li>02:00 PM: Arrive in paradise! <strong>Check into Aston Sunset Beach Resort</strong> on Gili Trawangan. 🏝️</li>
+                    <li>02:30 PM: Begin your scuba diving journey with an introductory training session in the pool. 🤿</li>
+                    <li>Evening: Find a perfect spot on the beach to watch the sunset and enjoy the laid-back island vibe. 🍻</li>
+                </ul>` },
+            { id: 6, date: "Oct 7, 2025", title: "Gili's Underwater World & Island Party 🎉", content: `
+                <p class="mb-4 text-gray-600"><strong>Staying at: Aston Sunset Beach Resort</strong></p>
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li>08:30 AM: Time for your first open-water scuba dive! Explore underwater statues and marine biodiversity. 🐡</li>
+                    <li>Afternoon: The rest of the day is yours to enjoy. Relax on the beach, cycle around the island, or simply unwind. 🚲</li>
+                    <li>Evening: As the sun sets, Gili Trawangan comes alive. Get ready for a fun party night! 🎶🥳</li>
+                </ul>` },
+            { id: 7, date: "Oct 8, 2025", title: "Journey to a Forest Haven 🌿", content: `
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li><strong>Check-out: Aston Sunset Beach Resort</strong></li>
+                    <li>10:00 AM: Say goodbye to the Gilis and take the ferry to Padang Bai. 👋</li>
+                    <li>Afternoon Detour: On your way to the villa, stop to visit the beautiful Goa Raja Waterfall. 🏞️</li>
+                    <li><strong>Check-in: Dream Cliffside Villa</strong> - Your stunning forest retreat. 🏡</li>
+                    <li>Evening: Relax, unwind, and enjoy the serene atmosphere and sounds of the jungle. 😌</li>
+                </ul>` },
+            { id: 8, date: "Oct 9, 2025", title: "East Bali's Hidden Gems & Transfer to Ubud 🍃", content: `
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li>Morning: Enjoy a slow, relaxed morning at Dream Cliffside Villa. 🧘</li>
+                    <li><strong>Check-out: Dream Cliffside Villa</strong></li>
+                    <li>11:00 AM: Depart to visit Gembleng Waterfall, with natural pools for swimming. 💧</li>
+                    <li>Afternoon: Visit Tirta Gangga, a former royal water palace. 👑</li>
+                    <li>Late Afternoon: Head towards Lahangan Sweet for spectacular sunset views over Mount Agung. 🌋</li>
+                    <li>Evening: Transfer to Ubud and <strong>check into Tranquil Villa</strong> for 2 nights. 🚗</li>
+                </ul>` },
+            { id: 9, date: "Oct 10, 2025", title: "Volcano Sunrise & Ubud Relaxation 🌋", content: `
+                 <p class="mb-4 text-gray-600"><strong>Staying at: Tranquil Villa</strong></p>
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li><strong>03:00 AM: Early wake-up call for your Mount Batur Jeep Sunrise Tour.</strong> 🌄</li>
+                    <li><strong>10:30 AM: Return to Tranquil Villa</strong> to freshen up and rest. 😴</li>
+                    <li>Afternoon: Relax and recover from the early morning adventure. 💆‍♀️</li>
+                    <li><strong>Evening Option: Visit Cretya Ubud</strong> - Famous day club with stunning terraced pools. 🎶</li>
+                    <li>Late Evening: Return to Tranquil Villa for a good night's rest. ✨</li>
+                </ul>` },
+            { id: 10, date: "Oct 11, 2025", title: "ATV Adventure & Beach Club Finale 🏍️🎉", content: `
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li>Morning: Enjoy breakfast at Tranquil Villa. 🥞</li>
+                    <li><strong>Check-out: Tranquil Villa</strong></li>
+                    <li><strong>11:00 AM: Morning ATV Adventure begins!</strong> Ride through rice paddies, jungles, and villages. 🌾</li>
+                    <li>Afternoon: Transfer directly to Canggu/Kuta area. 🚗</li>
+                    <li>Afternoon & Evening: <strong>FINNS Beach Club</strong> - Head straight here for sunset drinks, music, and a final celebration party. 🍹🥳</li>
+                    <li>Late Evening: <strong>Check into The Bene Hotel</strong> for your final night. 🏨</li>
+                </ul>` },
+            { id: 11, date: "Oct 12, 2025", title: "Departure 👋", content: `
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li>Morning: Enjoy a final Balinese breakfast at The Bene Hotel. 🥐</li>
+                    <li><strong>For the two couples:</strong> Check-out and airport transfer for departure flights. 🛫</li>
+                    <li><strong>For the remaining couple:</strong> Check-out and relax, enjoying a leisurely day in Kuta before your later departure. 🛍️</li>
+                </ul>` }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const dayNav = document.getElementById('day-nav');
+            const contentContainer = document.getElementById('content');
+            
+            itineraryData.forEach(day => {
+                const navLink = document.createElement('a');
+                navLink.href = `#day-${day.id}`;
+                navLink.textContent = `Day ${day.id}`;
+                navLink.className = 'nav-link px-3 py-1 rounded-full transition-colors duration-300 hover:bg-orange-200';
+                dayNav.appendChild(navLink);
+
+                const daySection = document.createElement('section');
+                daySection.id = `day-${day.id}`;
+                daySection.className = 'day-section p-6 bg-white rounded-2xl shadow-lg';
+                daySection.innerHTML = `
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="flex-shrink-0 bg-[#F89B6D] text-white w-16 h-16 rounded-full flex flex-col items-center justify-center text-center shadow-md">
+                            <span class="font-bold text-xl leading-none">DAY</span>
+                            <span class="font-bold text-3xl leading-none">${day.id}</span>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-bold text-[#4DB0AF]">${day.title}</h2>
+                            <p class="text-md text-gray-500 font-medium">${day.date}</p>
+                        </div>
+                    </div>
+                    <div class="prose max-w-none prose-li:my-1 prose-ul:pl-2">${day.content}</div>`;
+                contentContainer.appendChild(daySection);
+            });
+
+            const day2Section = document.getElementById('day-2');
+            if (day2Section) {
+                const optionButtons = day2Section.querySelectorAll('.option-btn');
+                const option1Content = day2Section.querySelector('#option-1-content');
+                const option2Content = day2Section.querySelector('#option-2-content');
+
+                optionButtons.forEach(button => {
+                    button.classList.add('px-4', 'py-2', 'border', 'rounded-lg', 'transition', 'duration-200', 'font-semibold');
+                    if (!button.classList.contains('active')) {
+                       button.classList.add('bg-white', 'text-gray-700', 'border-gray-300');
+                    }
+
+                    button.addEventListener('click', () => {
+                        optionButtons.forEach(btn => {
+                            btn.classList.remove('active', 'bg-white', 'text-gray-700', 'border-gray-300');
+                            btn.classList.add('bg-white', 'text-gray-700', 'border-gray-300');
+                        });
+                        button.classList.add('active');
+                        button.classList.remove('bg-white', 'text-gray-700', 'border-gray-300');
+                        
+                        if (button.dataset.option === '1') {
+                            option1Content.classList.remove('hidden');
+                            option2Content.classList.add('hidden');
+                        } else {
+                            option1Content.classList.add('hidden');
+                            option2Content.classList.remove('hidden');
+                        }
+                    });
+                });
+            }
+
+            const sections = document.querySelectorAll('.day-section, #accommodations, #overview');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id;
+                        let activeLink;
+                        if(id.startsWith('day-')) {
+                            activeLink = document.querySelector(`.nav-link[href="#${id}"]`);
+                        }
+                        navLinks.forEach(link => link.classList.remove('active'));
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: "-50% 0px -50% 0px" });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            renderAccommodationChart();
+        });
+
+        function renderAccommodationChart() {
+            const ctx = document.getElementById('accommodationChart').getContext('2d');
+            const accommodationData = [
+                { name: 'The Bene Hotel', start: '2025-10-02', end: '2025-10-04' },
+                { name: 'Semabu Hills', start: '2025-10-04', end: '2025-10-06' },
+                { name: 'Aston Sunset', start: '2025-10-06', end: '2025-10-08' },
+                { name: 'Dream Cliffside Villa', start: '2025-10-08', end: '2025-10-09' },
+                { name: 'Tranquil Villa', start: '2025-10-09', end: '2025-10-11' },
+                { name: 'The Bene Hotel ', start: '2025-10-11', end: '2025-10-12' },
+            ];
+
+            const colors = ['#F89B6D', '#4DB0AF', '#FFCB77', '#8A8D91', '#F89B6D', '#4DB0AF'].reverse();
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: accommodationData.map(d => d.name).reverse(),
+                    datasets: [{
+                        label: 'Stay Duration',
+                        data: accommodationData.map(d => [d.start, d.end]).reverse(),
+                        backgroundColor: colors,
+                        borderColor: colors.map(c => c + 'B3'),
+                        borderWidth: 1,
+                        borderRadius: 6,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'day',
+                                displayFormats: { day: 'MMM d' }
+                            },
+                            min: '2025-10-02',
+                            max: '2025-10-12',
+                            grid: {
+                                display: true,
+                                color: '#E5E7EB'
+                            },
+                            ticks: {
+                                color: '#6B7280'
+                            }
+                        },
+                        y: {
+                           grid: { display: false },
+                           ticks: { color: '#374151' }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const start = new Date(context.raw[0]).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                                    const end = new Date(context.raw[1]).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                                    return `${context.dataset.label}: ${start} - ${end}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
