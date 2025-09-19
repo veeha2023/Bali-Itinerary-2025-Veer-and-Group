@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bali Adventure Itinerary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDF8F0;
+            color: #4A4A4A;
+        }
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+        .nav-link.active {
+            background-color: #F89B6D;
+            color: #ffffff;
+        }
+        .option-btn.active {
+            background-color: #4DB0AF;
+            color: white;
+            border-color: #4DB0AF;
+        }
+        section[id] {
+            scroll-margin-top: 150px; /* Adjust based on your sticky header's height */
+        }
+        .gallery-grid {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-[#FDF8F0]/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="text-center py-2 md:py-4">
+                <h1 class="text-2xl md:text-4xl font-bold text-[#F89B6D]">Bali Adventure Itinerary 🌴✨</h1>
+                <p class="text-xs md:text-lg text-gray-600 mt-1">An Unforgettable Journey: October 22 – 30, 2025</p>
+            </div>
+            <nav id="day-nav" class="flex flex-wrap justify-center items-center gap-2 pb-2 md:pb-4 text-sm">
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        <div id="content" class="space-y-12">
+            
+            <section id="overview" class="p-4 sm:p-6 bg-white rounded-2xl shadow-lg text-center">
+                 <h2 class="text-2xl md:text-3xl font-bold text-[#4DB0AF] mb-4">Trip at a Glance</h2>
+                 <p class="max-w-3xl mx-auto text-gray-600 mb-6">
+                   Welcome to your personalized digital guide for an incredible 9-day journey through Bali. This interactive itinerary provides a high-level overview of your adventure, from the vibrant streets of Kuta to the tranquil jungles of Ubud. Use the navigation above to jump to any day.
+                 </p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                    <div class="bg-orange-50 p-3 rounded-xl flex flex-col items-center justify-center">
+                        <div class="text-3xl">🗺️</div>
+                        <h3 class="font-bold text-base md:text-lg text-orange-700 mt-2">4 Regions</h3>
+                        <p class="text-xs md:text-sm text-orange-600">Kuta, Uluwatu, Nusa Penida, Gili, Ubud</p>
+                    </div>
+                    <div class="bg-teal-50 p-3 rounded-xl flex flex-col items-center justify-center">
+                        <div class="text-3xl">🤿</div>
+                        <h3 class="font-bold text-base md:text-lg text-teal-700 mt-2">Water Activities</h3>
+                         <p class="text-xs md:text-sm text-teal-600">Jet Ski, Parasailing, Scuba Diving</p>
+                    </div>
+                    <div class="bg-amber-50 p-3 rounded-xl flex flex-col items-center justify-center">
+                        <div class="text-3xl">🍹</div>
+                        <h3 class="font-bold text-base md:text-lg text-amber-700 mt-2">Day & Nightlife</h3>
+                         <p class="text-xs md:text-sm text-amber-600">FINNS, La Favela, Rabbit Jump</p>
+                    </div>
+                     <div class="bg-lime-50 p-3 rounded-xl flex flex-col items-center justify-center">
+                        <div class="text-3xl">🌋</div>
+                        <h3 class="font-bold text-base md:text-lg text-lime-700 mt-2">Adventures</h3>
+                         <p class="text-xs md:text-sm text-lime-600">Mount Batur, ATV Ride</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        const itineraryData = [
+            { id: 1, date: "22 October 2025", title: "Arrival + Shopping + Nightlife", 
+              images: [
+                { url: "https://media1.thrillophilia.com/filestore/neznowe35mxcnjj84559i40ojhl7_1628342893_f98dbd26-1189-4c22-9e39-d8b3054eabdd.jpeg.jpg", alt: "Shopping in Kuta" },
+                { url: "https://finnsbeachclub.com/wp-content/uploads/2024/12/2024.12.11_FINNS_SUNSET_xDRONE_DK-2-2-scaled.jpg", alt: "FINNS Beach Club at sunset" },
+                { url: "https://foodies.id/wp-content/uploads/2024/10/Mexicola-Day-Of-The-Dead-01.jpg", alt: "Vibrant atmosphere at Motel Mexicola" }
+              ],
+              content: `
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li><strong>01:00 AM:</strong> You'll land in Bali early in the morning.</li>
+                    <li><strong>02:00 AM:</strong> The car will pick you up at the airport and take you straight to the hotel to rest.</li>
+                    <li><strong>Morning:</strong> Have a relaxed morning. The driver will pick you up at 10:30 AM.</li>
+                    <li><strong>10:30 AM:</strong> The driver will take you shopping in Kuta/Seminyak for local stuff, beach clothes, and souvenirs.</li>
+                    <li><strong>Afternoon:</strong> After shopping and lunch, go back to the hotel to change.</li>
+                    <li><strong>Late Afternoon:</strong> The driver will take you to <strong>FINNS Beach Club</strong>. You can enjoy the pools, drinks, and the view.</li>
+                    <li><strong>Evening:</strong> After FINNS, you can go for dinner. The driver will drop the kids at the hotel.</li>
+                    <li><strong>Late Night:</strong> Later, couples can go club hopping to places like <strong>Motel Mexicola</strong> or <strong>La Favela</strong>.</li>
+                </ul>
+                <div class='mt-4 p-3 bg-amber-50 rounded-lg text-amber-800 text-sm'>
+                    <strong class='font-semibold'>Good to Know:</strong> The driver won't be there for clubbing, so you might need to get an Uber or a Grab.
+                </div>` },
+            { id: 2, date: "23 October 2025", title: "Water Sports + Uluwatu Beaches + Temple Sunset", 
+              images: [
+                { url: "https://mybalitrekkingtours.com/wp-content/uploads/2018/10/jpg-1067x800.jpg", alt: "Parasailing in Nusa Dua" },
+                { url: "https://yachtsourcing.com/wp-content/uploads/Uluwatu-Beach-and-Suluban-Beach_-The-Ultimate-Guide-in-2024.jpg", alt: "Stunning cliffs of Uluwatu Beach" },
+                { url: "https://cdn.sanity.io/images/e9wvgo97/production/a618a18a69aba452f37cc01f3e96ee2e34d92b20-1080x1350.jpg?fm=webp&q=40", alt: "SAVAYA Bali beach club" },
+                { url: "https://ttbeach.club/wp-content/uploads/2025/05/kecak-dance-1024x683.jpg", alt: "Kecak Fire Dance at Uluwatu Temple" }
+              ],
+              content: `
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li><strong>09:00 AM:</strong> After breakfast, the driver will pick you up at 9:00 AM for water sports in Nusa Dua.</li>
+                    <li><strong>Activities:</strong> You can do Jet Ski, Banana Boat, and Parasailing.</li>
+                    <li><strong>Post-Lunch:</strong> After lunch, you'll go to Uluwatu to see the beaches.</li>
+                </ul>
+                <h3 class="text-xl font-semibold my-4 text-[#F89B6D]">Choose Your Adventure!</h3>
+                <div class="flex flex-wrap gap-4 mb-4">
+                    <button class="option-btn active" data-option="1">Option 1: Uluwatu Beaches</button>
+                    <button class="option-btn" data-option="2">Option 2: SAVAYA Beach Club</button>
+                </div>
+                <div id="option-1-content">
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>Explore Uluwatu's beaches like Padang Padang, Dreamland, or Bingin.</li>
+                    </ul>
+                </div>
+                <div id="option-2-content" class="hidden">
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>Visit <strong>SAVAYA</strong>, a beach club in Uluwatu.</li>
+                    </ul>
+                </div>
+                <ul class="list-disc list-inside space-y-2 text-gray-700 mt-4">
+                    <li><strong>04:30 PM:</strong> At 4:30 PM, you'll go to <strong>Uluwatu Temple</strong> for the sunset.</li>
+                    <li><strong>Sunset:</strong> You can watch the famous Kecak Fire Dance there.</li>
+                    <li><strong>09:00 PM:</strong> Go back to Kuta for dinner, and the driver will drop you at the hotel by 9 PM.</li>
+                </ul>
+                <div class='mt-4 p-3 bg-teal-50 rounded-lg text-teal-800 text-sm'>
+                    <strong class='font-semibold'>Heads Up:</strong> Pack your bags tonight for tomorrow. Remember to bring your swimwear and a change of clothes for today.
+                </div>` },
+            { id: 3, date: "24 October 2025", title: "West Nusa Penida Highlights", 
+              images: [
+                { url: "https://fokibalitours.com/wp-content/uploads/2025/07/kelingking-beach.webp", alt: "Kelingking Beach T-Rex cliff" },
+                { url: "https://digitaltravelcouple.com/wp-content/uploads/2022/05/broken-beach-nusa-penida-1.jpg", alt: "Broken Beach natural arch" }
+              ],
+              content: `
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li><strong>07:30 AM:</strong> Driver will pick you up at 7:30 AM to go to Sanur Port.</li>
+                    <li><strong>09:00 AM:</strong> The ferry to Nusa Penida leaves at 9:00 AM.</li>
+                    <li><strong>09:30 AM:</strong> You'll reach Nusa Penida by 9:30 AM and start exploring the west side.</li>
+                    <li><strong>Must-See Spots:</strong> You'll see <strong>Kelingking Beach</strong> (T-Rex Cliff), <strong>Angel's Billabong</strong>, and <strong>Broken Beach</strong>.</li>
+                    <li><strong>02:00–03:00 PM:</strong> You'll have a late lunch around 2 or 3 PM.</li>
+                    <li><strong>Afternoon/Evening:</strong> After lunch, you'll be dropped off at <strong>Bagia Bungalows</strong> to rest.</li>
+                </ul>` },
+            { id: 4, date: "25 October 2025", title: "East Nusa Penida → Gili Trawangan", 
+              images: [
+                { url: "https://shewandersabroad.com/wp-content/uploads/2025/01/Rumah-Pohon-Tree-House-Nusa-Penida-1.jpg", alt: "Rumah Pohon Treehouse" },
+                { url: "https://finnsbeachclub.com/wp-content/uploads/2023/12/beautiful-tropical-white-sand-beach-at-diamond-bea-2023-11-27-05-18-14-utc.jpg", alt: "Diamond Beach" },
+                { url: "https://finnsbeachclub.com/wp-content/uploads/2024/03/gilis-sunset.jpg", alt: "Sunset on Gili Trawangan" }
+              ],
+              content: `
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li><strong>07:00 AM:</strong> You need to leave early today, around 7:00 AM, for East Nusa Penida.</li>
+                    <li><strong>Island Highlights:</strong> You'll visit <strong>Rumah Pohon Treehouse</strong>, <strong>Thousand Islands Viewpoint</strong>, and <strong>Diamond Beach</strong>.</li>
+                    <li><strong>11:30 AM:</strong> Go straight to the ferry terminal by 11:30 AM.</li>
+                    <li><strong>12:30 PM:</strong> The ferry to Gili Trawangan is at 12:30 PM. It takes about 1.5 hours. Carry some food with you for lunch.</li>
+                    <li><strong>02:00 PM:</strong> When you get to Gili T, take a horse carriage (cidomo) from the port to Trawangan Dive Centre.</li>
+                    <li><strong>02:30 PM:</strong> If you're doing scuba, you need to be there by 2:30 PM for the training session.</li>
+                    <li><strong>Post-Training:</strong> After the session, take a horse carriage to your hotel to check in.</li>
+                </ul>
+                <div class='mt-4 p-3 bg-blue-50 rounded-lg text-blue-800 text-sm'>
+                    <strong class='font-semibold'>Island Tip:</strong> There are no cars on Gili T. You have to use horse carriages (cidomos). This is not included in the package.
+                </div>` },
+            { id: 5, date: "26 October 2025", title: "Scuba Diving + Foam Party", 
+              images: [
+                { url: "https://3wdivegili.com/wp-content/uploads/2020/08/FunDIve1.jpg", alt: "Scuba diving in Gili T" },
+                { url: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2d/44/d4/45/caption.jpg?w=1100&h=1100&s=1", alt: "Foam party at Rabbit Jump" },
+                { url: "https://bali.com/wp-content/uploads/2022/09/natys-1.jpg", alt: "Gili Trawangan town at night" }
+              ],
+              content: `
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li><strong>08:30 AM:</strong> At 8:30 AM, go to Trawangan Dive Centre for scuba diving. It will take about 3 hours.</li>
+                    <li><strong>Afternoon:</strong> Later, you are free to chill, walk, or go snorkeling.</li>
+                    <li><strong>03:00 PM:</strong> Go to the Foam Party at <strong>Rabbit Jump Beach Club</strong> from 3:00 PM onwards.</li>
+                    <li><strong>Sunset:</strong> Enjoy the party and the sunset.</li>
+                    <li><strong>Evening:</strong> Later, have dinner and go to other beach clubs if you want.</li>
+                </ul>` },
+            { id: 6, date: "27 October 2025", title: "Return to Bali + Cretya Ubud", 
+              images: [
+                { url: "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-674x446/13/c6/60/d2.jpg", alt: "Cretya Ubud infinity pool" }
+              ],
+              content: `
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li><strong>09:30 AM:</strong> Next morning, after breakfast, get to the ferry terminal by 9:30 AM for the 10:00 AM ferry to Bali (Padang Bai). It's a 2.5-hour trip.</li>
+                    <li><strong>12:30 PM:</strong> A driver will pick you up from the ferry and take you to your villa in Ubud.</li>
+                    <li><strong>Afternoon:</strong> Relax and change at the villa, then have lunch in the city.</li>
+                    <li><strong>03:00 PM:</strong> After lunch, around 3:00 PM, the driver will take you to <strong>Cretya Ubud</strong> infinity pool. It's a good place to relax and have drinks.</li>
+                    <li><strong>Evening:</strong> After that, go back to Ubud town for dinner and a walk.</li>
+                </ul>` },
+            { id: 7, date: "28 October 2025", title: "East Bali Waterfalls & Lahangan Sweet", 
+              images: [
+                { url: "https://bali.com/wp-content/uploads/2020/11/tukad-cepung.jpg", alt: "Tukad Cepung Waterfall" },
+                { url: "https://madedodi.com/wp-content/uploads/2022/09/LAHANGAN-SWEET-and-LEMPUYANG-GATE-TOUR-1-THUMB.jpg", alt: "Gate of Heaven at Lahangan Sweet" },
+                { url: "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-674x446/0f/99/d3/c9.jpg", alt: "View from Lahangan Sweet" }
+              ],
+              content: `
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li><strong>10:30 AM:</strong> Have a relaxed morning. After breakfast, the driver will pick you up at 10:30 AM to visit East Bali and the waterfalls.</li>
+                    <li>Visit the stunning <strong>Goa Raja Waterfall</strong> and the magical <strong>Tukad Cepung Waterfall</strong>.</li>
+                    <li><strong>Afternoon:</strong> Drive to <strong>Lahangan Sweet</strong> viewpoint. You can see a beautiful view of Mount Agung here.</li>
+                    <li><strong>Optional:</strong> You can also take a photo at the famous Bali Gate and try the Bali Swing if you want.</li>
+                </ul>
+                <div class='mt-4 p-3 bg-red-50 rounded-lg text-red-800 text-sm'>
+                    <strong class='font-semibold'>Pro-Tip:</strong> Sleep early, as you have Mount Batur tomorrow.
+                </div>` },
+            { id: 8, date: "29 October 2025", title: "Mount Batur Sunrise + ATV Ride", 
+              images: [
+                { url: "https://quadbikebali.com/wp-content/uploads/2024/03/WhatsApp-Image-2024-03-14-at-14.53.27-960x675.jpeg", alt: "Mount Batur Jeep Sunrise Tour" },
+                { url: "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-674x446/11/ed/91/82.jpg", alt: "ATV ride through a gorilla cave" }
+              ],
+              content: `
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li><strong>02:00 AM:</strong> At 2:00 AM, a car will pick you up from the villa for the Mount Batur tour.</li>
+                    <li><strong>04:00–07:00 AM:</strong> A 4x4 jeep will take you to the top of the mountain for sunrise. You will also visit the black lava fields.</li>
+                    <li><strong>10:30 AM:</strong> You'll come back to the stay at 10:30 AM.</li>
+                    <li><strong>01:00 PM:</strong> Rest for a while, and have lunch at 1:00 PM.</li>
+                    <li><strong>02:00 PM:</strong> The ATV person will pick you up for an ATV ride at 2:00 PM. The ride will be about 3 hours.</li>
+                </ul>
+                <div class='mt-4 p-3 bg-lime-50 rounded-lg text-lime-800 text-sm'>
+                    <strong class='font-semibold'>Final Prep:</strong> Pack your bags today, as you need to leave early tomorrow for your flight.
+                </div>` },
+            { id: 9, date: "30 October 2025", title: "Departure", 
+              images: [
+                { url: "https://www.telegraph.co.uk/content/dam/Travel/2018/November/balicover.jpg?imwidth=640", alt: "Farewell view of Bali" }
+              ],
+              content: `
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li><strong>05:30 AM:</strong> Pickup from the villa at 5:30 AM in the morning and transfer to the airport.</li>
+                    <li><strong>10:00 AM:</strong> Your flight is at 10:00 AM.</li>
+                    <li>Bid goodbye to the best times in Bali. 🌺✨</li>
+                </ul>` }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const dayNav = document.getElementById('day-nav');
+            const contentContainer = document.getElementById('content');
+            
+            itineraryData.forEach(day => {
+                const navLink = document.createElement('a');
+                navLink.href = `#day-${day.id}`;
+                navLink.textContent = `Day ${day.id}`;
+                navLink.className = 'nav-link px-3 py-1 rounded-full transition-colors duration-300 hover:bg-orange-200';
+                dayNav.appendChild(navLink);
+
+                const daySection = document.createElement('section');
+                daySection.id = `day-${day.id}`;
+                daySection.className = 'day-section p-6 bg-white rounded-2xl shadow-lg';
+                
+                const imageGallery = day.images.map(image => `
+                    <div class="rounded-xl overflow-hidden shadow-md">
+                        <img src="${image.url}" alt="${image.alt}" class="w-full h-full object-cover" 
+                             onerror="this.onerror=null;this.parentElement.style.display='none';">
+                    </div>
+                `).join('');
+
+                daySection.innerHTML = `
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="flex-shrink-0 bg-[#F89B6D] text-white w-16 h-16 rounded-full flex flex-col items-center justify-center text-center shadow-md">
+                            <span class="font-bold text-xl leading-none">DAY</span>
+                            <span class="font-bold text-3xl leading-none">${day.id}</span>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl md:text-3xl font-bold text-[#4DB0AF]">${day.title}</h2>
+                            <p class="text-md text-gray-500 font-medium">${day.date}</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="prose max-w-none prose-li:my-1 prose-ul:pl-2">${day.content}</div>
+                        <div class="gallery-grid">
+                            ${imageGallery}
+                        </div>
+                    </div>
+                `;
+                contentContainer.appendChild(daySection);
+            });
+
+            // Re-initialize interactive elements after dynamic creation
+            const day2Section = document.getElementById('day-2');
+            if (day2Section) {
+                const optionButtons = day2Section.querySelectorAll('.option-btn');
+                const option1Content = day2Section.querySelector('#option-1-content');
+                const option2Content = day2Section.querySelector('#option-2-content');
+
+                optionButtons.forEach(button => {
+                    button.classList.add('px-4', 'py-2', 'border', 'rounded-lg', 'transition', 'duration-200', 'font-semibold');
+                     if (!button.classList.contains('active')) {
+                       button.classList.add('bg-white', 'text-gray-700', 'border-gray-300');
+                    }
+                    button.addEventListener('click', () => {
+                        optionButtons.forEach(btn => {
+                            btn.classList.remove('active');
+                            btn.classList.add('bg-white', 'text-gray-700', 'border-gray-300');
+                        });
+                        button.classList.add('active');
+                        button.classList.remove('bg-white', 'text-gray-700', 'border-gray-300');
+                        
+                        if (button.dataset.option === '1') {
+                            option1Content.classList.remove('hidden');
+                            option2Content.classList.add('hidden');
+                        } else {
+                            option1Content.classList.add('hidden');
+                            option2Content.classList.remove('hidden');
+                        }
+                    });
+                });
+            }
+
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id;
+                        const activeLink = document.querySelector(`.nav-link[href="#${id}"]`);
+                        navLinks.forEach(link => link.classList.remove('active'));
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, { rootMargin: "-50% 0px -50% 0px", threshold: 0.5 });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
+
